@@ -1,0 +1,26 @@
+AWS : ec2-user@ip, auth
+https://blog.teamtreehouse.com/deploy-static-site-heroku
+sudo su
+yum update -y
+yum install httpd -y
+ckconfig httpd on
+cd/var/www/html
+aws s3 sync s3 var/www/html
+service httpd start
+
+heroku commands
+git init
+git add .
+git commit -m "omment"
+heroku apps:create appname
+git push heroku master
+
+git config --global user.name ""
+git config --global user.email ""
+
+aws :
+dementor1901@gmail.com
+vAsU@1991
+vAsu@1991
+
+heroku login: newnewphew02_
