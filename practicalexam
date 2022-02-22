@@ -1,0 +1,107 @@
+import React from 'react'
+import Axios from 'axios'
+
+const Home = () => {
+
+    var brand2 = 10;
+
+    const getData = ()=>{
+
+        console.log(brand2)
+        Axios.post('http://localhost:3001/brand',
+        {brand : brand2}
+        ).then((response)=>{
+            console.log(response.data)
+        })
+    }
+
+  return (
+    <div>
+        <label>Brand : </label>
+        <input 
+        onChange={(e)=>{
+            brand2 = e.target.value
+        }} 
+        />
+        <button onClick={()=> getData()}>Click me</button>
+    </div>
+  )
+}
+
+export default Home
+
+NodeJS:
+const express= require('express');
+const mysql= require('mysql');
+const cors= require('cors');
+const bodyParser= require('body-parser');
+
+const app= express();
+
+const db= mysql.createPool(
+    {
+host: 'localhost',
+user: 'root',
+password: '1234',
+database: 'mylab'
+    }
+
+);
+
+
+app.use(express.json());
+app.use(cors());
+app.use(bodyParser.urlencoded({extended: true}));
+
+app.get('/bicchoo', (req,res)=>{
+
+
+    let getThat= 'select captains from team';
+
+
+db.query(getThat, (err, result)=>
+{
+    console.log(result);
+    res.send(result);
+
+})
+});
+
+app.post('/macchi', (req,res)=>
+{
+const date= req.body.date;
+console.log(req.body.date);
+
+let getAlso= 'select * from game where date= ${date}';
+console.log('query: '+ getAlso);
+
+db.query(getAlso, (err, res)=>
+{
+if(err) throw err;
+console.log(result);
+res. send(result);
+
+})
+
+})
+app.post('/update',(req,res)=>{
+
+    const id = req.body.id;
+    const name = req.body.name;
+    const age = req.body.age;
+    const gender = req.body.gender;
+
+    let sqlUpdate = `UPDATE kunter SET name='${name}', age='${age}', gender='${gender}' where id=${id}`;
+
+    db.query(sqlUpdate,{name,age,gender,id},(err,result)=>{
+        if(err) throw err;
+        console.log(result)
+        res.send(result)
+    })
+
+})
+app.listen('3001', ()=>
+{
+    console.log('3001 port is running');
+}
+);
